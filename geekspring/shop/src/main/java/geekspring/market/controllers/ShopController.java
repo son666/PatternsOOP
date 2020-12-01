@@ -29,6 +29,7 @@ public class ShopController {
     private static final int INITIAL_PAGE = 0;
     private static final int PAGE_SIZE = 8;
 
+    private MailService mailService;
     private UserService userService;
     private OrderService orderService;
     private ProductService productService;
@@ -64,6 +65,10 @@ public class ShopController {
         this.deliverAddressService = deliverAddressService;
     }
 
+    @Autowired
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
+    }
 
     @Autowired
     public void setCategoryService(CategoryService categoryService) {
@@ -135,6 +140,7 @@ public class ShopController {
         order.setDeliveryDate(LocalDateTime.now().plusDays(7));
         order.setDeliveryPrice(0.0);
         order = orderService.saveOrder(order);
+        mailService.sendOrderMail(order);
         model.addAttribute("order", order);
         return "checkout-page";
     }

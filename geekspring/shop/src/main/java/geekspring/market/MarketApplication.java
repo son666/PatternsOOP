@@ -1,5 +1,6 @@
 package geekspring.market;
 
+import geekspring.market.services.MailService;
 import geekspring.market.utils.RabbitProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
