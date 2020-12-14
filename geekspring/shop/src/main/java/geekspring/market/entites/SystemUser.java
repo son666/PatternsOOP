@@ -1,6 +1,8 @@
 package geekspring.market.entites;
 
 
+import geekspring.market.validation.FieldMatch;
+import geekspring.market.validation.ValidEmail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
+@FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")
 public class SystemUser {
     @NotNull(message = "not null check")
     @Size(min = 3, message = "username length must be greater than 2 symbols")
@@ -33,6 +36,7 @@ public class SystemUser {
 
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
+    @ValidEmail
     private String email;
 
     @NotNull(message = "is required")
