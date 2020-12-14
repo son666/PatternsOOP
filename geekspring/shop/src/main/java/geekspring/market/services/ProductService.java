@@ -1,6 +1,7 @@
 package geekspring.market.services;
 
 import geekspring.market.entites.Product;
+import geekspring.market.identitymap.ProductMap;
 import geekspring.market.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,15 +13,15 @@ import java.util.List;
 
 @Service
 public class ProductService {
+
+    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
-    public void setProductRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    private ProductMap productMap;
 
     public List<Product> getAllProducts() {
-        return (List<Product>)(productRepository.findAll());
+        return productMap.getAll();
     }
 
     public List<Product> getAllProductsWithFilter(Specification<Product> productSpecs) {
@@ -28,7 +29,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElse(null);
+        return productMap.getProduct(id);
     }
 
     public Page<Product> getAllProductsByPage(int pageNumber, int pageSize) {
@@ -40,14 +41,14 @@ public class ProductService {
     }
 
     public boolean isProductWithTitleExists(String productTitle) {
-        return productRepository.findOneByTitle(productTitle) != null;
+        return productMap.isProductWithTitleExists(productTitle);
     }
 
     public void saveProduct(Product product) {
-        productRepository.save(product);
+        productMap.addProduct(product);
     }
 
     public void deleteProductById(Long id) {
-        productRepository.deleteById(id);
+        productMap.deleteProduct(id);
     }
 }

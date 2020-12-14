@@ -1,5 +1,6 @@
 package geekspring.market.services;
 
+import geekspring.market.DAO.CategoryDAO;
 import geekspring.market.entites.Category;
 import geekspring.market.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,30 +10,27 @@ import java.util.List;
 
 @Service
 public class CategoryService {
-    private CategoryRepository categoryRepository;
 
     @Autowired
-    public void setCategoryRepository(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    private CategoryDAO categoryDAO;
 
     public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElse(null);
+        return categoryDAO.getById(id);
     }
 
     public boolean isCategoryWithTitleExists(String categoryTitle) {
-        return categoryRepository.findOneByTitle(categoryTitle) != null;
+        return categoryDAO.isCategoryWithTitleExists(categoryTitle);
     }
 
     public List<Category> getAllCategories() {
-        return (List<Category>)categoryRepository.findAll();
+        return categoryDAO.getAll();
     }
 
     public void deleteCategoryById(Long id) {
-        categoryRepository.deleteById(id);
+        categoryDAO.delete(id);
     }
 
     public void saveCategory(Category category) {
-        categoryRepository.save(category);
+        categoryDAO.save(category);
     }
 }
